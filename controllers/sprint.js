@@ -2,20 +2,21 @@
 const router = require("express").Router()
 const { Sprint } = require('../models')
 
-//Get all sprints
+//GET ALL SPRINTS
 router.get("/", async (req, res) => {
     const sprint = await Sprint.find()
     res.json(sprint)
+    console.log("viewing all sprints")
 })
 
-//Get one sprint
+//GET ONE SPRINT
 router.get("/:id", (req, res) => {
     Sprint.findOne({_id: req.params.id}).then((foundSprint) => {
         res.json(foundSprint)
     })
 })
 
-//Create new sprint
+//CREATE NEW SPRINT
 router.post("/", (req, res) => {
     Sprint.create(req.body)
         .then((createSprint) => {
@@ -29,10 +30,23 @@ router.post("/", (req, res) => {
         })
 })
 
-//Delete a project
+//UPDATE ONE SPRINT
+router.put("/:id", (req, res) => {
+    Sprint.findByIdAndUpdate(req.params.id, req.body)
+        .then((updatedSprint) => {
+            res.status(200).json(updatedSprint)
+        })
+        .catch((err) => {
+            res.status(400).json({
+                message: "An error occured, could not edit the project"
+            })
+        })
+})
+
+//DELETE A PROJECT
 router.delete(":/id", (req, res) => {
     Sprint.findByIdAndDelete(req.params.id).then(res.status(303))
 })
 
-//exports
+//EXPORTS
 module.exports = router;

@@ -10,6 +10,9 @@ app.get("/", (req, res) => {
     res.send("You are in the home page")
 })
 
+//connection to the sprint's controller
+app.use("/sprints", require("./controllers/sprint"))
+
 app.get("*", (req, res) => {
     res.status(404).send("404 | page not found")
 })
