@@ -4,9 +4,12 @@ db.Sprint.create([
     {
         sprintName: "First Project",
         dueDate: "2020/11/22",
-        title: "First Sprint",
-        description: "This is a test",
+        assignments: { 
+          title: "First Sprint",
+          description: "This is a test",
         completed: false
+      }
+       
     },
 ])
 

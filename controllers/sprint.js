@@ -44,8 +44,9 @@ router.put("/:id", (req, res) => {
 })
 
 //DELETE A PROJECT
-router.delete(":/id", (req, res) => {
+router.delete("/:id", (req, res) => {
     Sprint.findByIdAndDelete(req.params.id).then(res.status(303))
+    console.log("deleting selected sprint")
 })
 
 //EXPORTS
