@@ -38,7 +38,7 @@ router.put("/:id", (req, res) => {
         })
         .catch((err) => {
             res.status(400).json({
-                message: "An error occured, could not edit the project"
+                message: "An error occured, could not edit the sprint."
             })
         })
 })
