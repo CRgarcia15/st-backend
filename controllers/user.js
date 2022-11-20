@@ -2,16 +2,13 @@
 const router = require("express").Router()
 const { User } = require("../models")
 
+// get all user (just for development purposes)
+router.get("/", async (req, res) => {
+    const user = await User.find()
+    res.json(user)
+})
 //CREATE NEW USER
 router.post("/", async (req, res) => {
-    // const {fullName, username, password} = req.body
-    // const createdUser = await new User({
-    //     fullName,
-    //     username,
-    //     password
-    // }).save()
-
-    // res.json(createdUser)
     User.create(req.body)
     .then((createdUser) => {
         res.status(200).json(createdUser)
@@ -35,6 +32,12 @@ router.put("/:id", (req, res) => {
                 message: "An error occured, could not edit user."
             })
         })
+})
+
+//DELETE USER
+router.delete("/:id", (req, res) => {
+    User.findByIdAndDelete(req.params.id).then(res.status(303))
+    console.log("user is being deleted")
 })
 
 //EXPORTS
