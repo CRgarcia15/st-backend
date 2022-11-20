@@ -12,3 +12,4 @@ mongoose.connect(
 )
 
 module.exports.Sprint = require("./sprint")
+module.exports.User = require("./user")

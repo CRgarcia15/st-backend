@@ -3,10 +3,24 @@ const router = require("express").Router()
 const { User } = require("../models")
 
 //CREATE NEW USER
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
+    // const {fullName, username, password} = req.body
+    // const createdUser = await new User({
+    //     fullName,
+    //     username,
+    //     password
+    // }).save()
+
+    // res.json(createdUser)
     User.create(req.body)
-    .then((createUser) => {
-        res.status(200).json(createUser)
+    .then((createdUser) => {
+        res.status(200).json(createdUser)
+    })
+
+    .catch((err) => {
+        res.status(400).json({
+            message: "An error occured, could not create a new sprint."
+        })
     })
 })
 
@@ -22,3 +36,6 @@ router.put("/:id", (req, res) => {
             })
         })
 })
+
+//EXPORTS
+module.exports = router;

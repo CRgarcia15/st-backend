@@ -6,7 +6,7 @@ const { Sprint } = require('../models')
 router.get("/", async (req, res) => {
     const sprint = await Sprint.find()
     res.json(sprint)
-    console.log("viewing all sprints")
+    console.log("showing all sprints")
 })
 
 //GET ONE SPRINT
