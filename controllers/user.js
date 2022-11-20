@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
     const user = await User.find()
     res.json(user)
 })
+
 //CREATE NEW USER
 router.post("/", async (req, res) => {
     User.create(req.body)
@@ -23,15 +24,16 @@ router.post("/", async (req, res) => {
 
 //UPDATE AN USER
 router.put("/:id", (req, res) => {
-    User.findbyIdAndUpdate(req.params.id, req.body)
+    User.findByIdAndUpdate(req.params.id, req.body)
         .then((updatedUser) => {
             res.status(200).json(updatedUser)
         })
         .catch((err) => {
             res.status(400).json({
-                message: "An error occured, could not edit user."
+                message: "An error occured, could not update your user profile."
             })
         })
+    console.log("User is being updated")
 })
 
 //DELETE USER
