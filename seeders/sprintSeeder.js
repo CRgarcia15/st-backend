@@ -1,6 +1,6 @@
 const db = require("../models")
 
-db.Sprint.create([
+db.Project.create([
     {
         sprintName: "First Project",
         dueDate: "2020/11/22",

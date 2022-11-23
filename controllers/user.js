@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 
     .catch((err) => {
         res.status(400).json({
-            message: "An error occured, could not create a new sprint."
+            message: "An error occured, could not create a new user."
         })
     })
 })

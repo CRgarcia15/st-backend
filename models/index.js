@@ -11,5 +11,5 @@ mongoose.connect(
     }
 )
 
-module.exports.Sprint = require("./sprint")
+module.exports.Project = require("./projects")
 module.exports.User = require("./user")

@@ -3,8 +3,9 @@ const express = require('express')
 const app = express()
 const mongoose = require("mongoose")
 require("dotenv").config()
-
 const userRoutes =  require("./controllers/user")
+const projectRoutes = require("./controllers/projects")
+
 //MIDDLEWARE
 app.use(express.json())
 
@@ -13,11 +14,12 @@ app.get("/", (req, res) => {
     res.send("You are in the home page")
 })
 
-//SPRINT ROUTE
-app.use("/sprints", require("./controllers/sprint"))
+//PROJECT ROUTE
+app.use("/projects", projectRoutes)
+
 
 //LOGIN ROUTE
-app.use("/login", userRoutes)
+app.use("/user", userRoutes)
 
 //ERROR HANDALING / 404
 app.get("*", (req, res) => {
