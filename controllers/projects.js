@@ -6,7 +6,7 @@ const { Project } = require('../models')
 router.get("/", async (req, res) => {
     const project = await Project.find()
     res.json(project)
-    console.log("showing all project")
+    console.log("showing all projects")
 })
 
 //GET ONE PROJECT

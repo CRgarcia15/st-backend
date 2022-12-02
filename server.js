@@ -5,9 +5,11 @@ const mongoose = require("mongoose")
 require("dotenv").config()
 const userRoutes =  require("./controllers/user")
 const projectRoutes = require("./controllers/projects")
+const cors = require('cors')
 
 //MIDDLEWARE
 app.use(express.json())
+app.use(cors({origin:'*'}))
 
 //ROUTES
 app.get("/", (req, res) => {
