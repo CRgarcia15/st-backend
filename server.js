@@ -9,6 +9,7 @@ const cors = require('cors')
 
 //MIDDLEWARE
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors({origin:'*'}))
 
 //ROUTES
@@ -18,7 +19,6 @@ app.get("/", (req, res) => {
 
 //PROJECT ROUTE
 app.use("/projects", projectRoutes)
-
 
 //LOGIN ROUTE
 app.use("/user", userRoutes)
