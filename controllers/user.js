@@ -22,18 +22,22 @@ router.post("/", async (req, res) =>{
     console.log("attempting to create user")
 })
 
-//CREATE NEW USER
-// router.post("/", async (req, res) => {
-//    User.create(req.body)
-//     .then((createdUser) => {
-//         res.status(200).json(createdUser)
-//     })
-//     .catch((err) => {
-//         res.status(400).json({
-//             message: "An error occured, could not create a new user."
-//         })
-//     })
-// })
+//LOGIN USER
+router.post("/login", async (req, res) => {
+    const { username, password } = req.body
+
+    const user = await User.findOne({ username })
+    if (!user) res.status(403).json({'message': "Invalid Credentials"})
+
+    const isValidPassword = await bcrypt.compare(password, user.password)
+    if(isValidPassword) {
+        res.status(422)
+        res.json({"message": "Invalid Credentials"})
+        return
+    }
+
+    res.json({"message": "You're Logged In"})
+})
 
 //UPDATE AN USER
 router.put("/:id", (req, res) => {
