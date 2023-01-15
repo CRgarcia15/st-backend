@@ -17,10 +17,9 @@ app.get("/", (req, res) => {
     res.send("You are in the home page")
 })
 
-//PROJECT ROUTE
+//ROUTES
 app.use("/projects", projectRoutes)
 
-//LOGIN ROUTE
 app.use("/user", userRoutes)
 
 //ERROR HANDALING / 404

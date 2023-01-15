@@ -4,12 +4,14 @@ const mongoose = require("mongoose")
 
 //MONGO CONNECTION
 mongoose.connect(
-    "mongodb+srv://Crgarcia15:admin@sprinttrack.hngys8v.mongodb.net/test",
+    process.env.MONGO_URI,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     }
 )
+    .then(() => console.log('DB Connected'))
+    .catch(err => console.error(err))
 
 module.exports.Project = require("./projects")
 module.exports.User = require("./user")
