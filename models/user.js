@@ -16,3 +16,6 @@ const mongoose = require("mongoose")
 
 //EXPORT
  module.exports = mongoose.model('User', userSchema)
+
+// this should be a one-to-many realationship with projects. 
+//Having an id of user linked to each project created by said user.

@@ -8,5 +8,7 @@ const projectSchema = new mongoose.Schema({
    assingments: [{type: String}]
 })
 
- //EXPORTS
- module.exports = mongoose.model('Project', projectSchema);
+//EXPORTS
+module.exports = mongoose.model('Project', projectSchema);
+
+// this should be a one-to-many relationship with the task.
