@@ -28,7 +28,7 @@ app.get("*", (req, res) => {
 })
 
 //PORT THAT IS BEING USED
-const PORT = process.env.PORT || 7000
+const PORT = process.env.PORT
 
 //LISTENER
 app.listen(PORT, () => {
