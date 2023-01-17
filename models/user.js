@@ -8,12 +8,6 @@ const mongoose = require("mongoose")
     password: {type: String, required: true}
  })
 
- userSchema.virtual('project', {
-   ref: "Project",
-   localField: "_id",
-   foreignField: "project"
- })
-
 //EXPORT
  module.exports = mongoose.model('User', userSchema)
 

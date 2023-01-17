@@ -9,7 +9,8 @@ router.get("/", async (req, res) => {
     res.json(user)
     console.log("Showing all Users")
 })
- //CREATE NEW USER WITH HASHED PASSWORD
+
+//CREATE NEW USER WITH HASHED PASSWORD
 router.post("/", async (req, res) =>{
     const { fullName, username, password } = req.body
     const createdUser = await new User({
@@ -19,7 +20,7 @@ router.post("/", async (req, res) =>{
     }).save()
     
     res.json(createdUser)
-    console.log("attempting to create user")
+    console.log("created an user")
 })
 
 //LOGIN USER
