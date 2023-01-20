@@ -34,13 +34,13 @@ router.post("/login", async (req, res) => {
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password)
-    console.log(password)
     if(isValidPassword) {
         res.status(422)
         res.json({"message": "Invalid Credentials"})
         return
     }
-
+    console.log(password)
+    console.log(isValidPassword)
     res.json({"message": "You're Logged In"})
 })
 
