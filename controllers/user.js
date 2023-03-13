@@ -16,14 +16,14 @@ router.post("/", async (req, res) =>{
     const createdUser = await new User({
         fullName,
         username,
-        password: await bcrypt.hash(password, 12)
+        password: await bcrypt.hash(password, 10)
     }).save()
     
     res.json(createdUser)
     console.log("created an user")
 })
 
-//LOGIN USER
+//USER LOGIN
 router.post("/login", async (req, res) => {
     const { username, password } = req.body
 
@@ -33,14 +33,20 @@ router.post("/login", async (req, res) => {
         return
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password)
-    if(isValidPassword) {
-        res.status(422)
-        res.json({"message": "Invalid Credentials"})
-        return
-    }
+    const isValidPassword =  await bcrypt.compare(password, user.password);
+        if(!isValidPassword){
+            res.status(422)
+            res.json({'message': 'Invalid Credentials'})
+            console.log(password)
+            console.log(user)
+            console.log(isValidPassword)
+            return;
+        }
+    
     console.log(password)
+    console.log(user)
     console.log(isValidPassword)
+
     res.json({"message": "You're Logged In"})
 })
 

@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
   name: {type: String, required: false},
   username: {type: String, required: true},
-  password: {type: String, lowercase: true, required: true},
+  password: {type: String, required: true},
     //an array of projects that user has created
     projects: [{
       type: Schema.Types.ObjectId,
