@@ -16,7 +16,7 @@ router.post("/", async (req, res) =>{
     const createdUser = await new User({
         fullName,
         username,
-        password: await bcrypt.hash(password, 10) //it was 12 previously, try to make compare work with 12 salt rounds
+        password: await bcrypt.hash(password, 12)
     }).save()
     
     res.json(createdUser)
@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
         return
     }
 
-    const isValidPassword =  await bcrypt.compare(password, user.password); //Only works if salt rounds is 10, need to figure out how to change it for 12
+    const isValidPassword =  await bcrypt.compare(password, user.password);
         if(!isValidPassword){
             res.status(422)
             res.json({'message': 'Invalid Credentials'})
