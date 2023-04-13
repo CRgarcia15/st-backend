@@ -2,8 +2,9 @@
 const router = require("express").Router()
 const { User } = require("../models")
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
-// get all user (just for development purposes)
+//get all user (just for development purposes)
 router.get("/", async (req, res) => {
     const user = await User.find()
     res.json(user)
@@ -21,6 +22,13 @@ router.post("/", async (req, res) =>{
     
     res.json(createdUser)
     console.log("created an user")
+
+    //Creates user with JWT token
+    const payload = {
+        id: createdUser._id,
+        username: createdUser.username
+    }
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
 })
 
 //USER LOGIN
@@ -48,6 +56,8 @@ router.post("/login", async (req, res) => {
     console.log(isValidPassword)
 
     res.json({"message": "You're Logged In"})
+
+    //JWT should start here
 })
 
 //UPDATE AN USER
