@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 //SCHEMA
 const assingmentSchema = new Schema({
-    project: {
+    projectId: {
         type: Schema.Types.ObjectId,
         ref: "Project",
         required : true
