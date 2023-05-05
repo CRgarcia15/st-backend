@@ -15,9 +15,10 @@ function validateJWT(req, res, next) {
         next()
     } catch (error) {
         console.log(error)
+        res.status(422)
         res.json({'message': 'Invalid Credentials'})
         return
     }
 }
 
-module.exports = {validateJWT}
+module.exports = { validateJWT }

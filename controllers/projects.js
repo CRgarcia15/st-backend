@@ -1,6 +1,7 @@
 //DEPENDENCIES
 const router = require("express").Router()
-const { Project } = require('../models')
+const { Project, Assingments } = require('../models')
+
 
 //GET ALL PROJECT
 router.get("/", async (req, res) => {
@@ -47,6 +48,30 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
     Project.findByIdAndDelete(req.params.id).then(res.status(303))
     console.log("deleting selected project")
+})
+
+//REQUESTING ALL ASSIGNMENTS FOR ONE PROJECT
+router.get("/assingments", async(req, res) => {
+    const Assingments = await Assingments.find()
+    if(!Assingments){
+        res.status(404)
+        res.json({"message": "Assingments not found"})
+        return
+    }
+    res.json(Assingments)
+    console.log("showing all assingments")
+})
+
+//REQUESTING ONE ASSINGMENT 
+router.get("/assingments/:id", (req, res) => {
+    Assingments.findOne({_id: req.params.id}).then((foundAssingment) => {
+        if(!foundAssingment) {
+            res.status(404)
+            res.json({"message": "Assingments not found"})
+            return
+        }
+        res.json(foundAssingment)
+    })
 })
 
 //EXPORTS
