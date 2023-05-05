@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 const projectSchema = new mongoose.Schema({
    projectName: {type: String, required: true},
    dueDate: {type: String, default: "No due date", required: false},
-   owner: {
+   ownerId: {
       type: Schema.Types.ObjectId,
       ref: "User"
       //this is realating the project to it owner (user who created it)

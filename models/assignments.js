@@ -6,8 +6,8 @@ const Schema = mongoose.Schema
 const assingmentSchema = new Schema({
     project: {
         type: Schema.Types.ObjectId,
-        ref: "Project"
-        //this is ralating the project the assingment is for.
+        ref: "Project",
+        required : true
     },
     title: {type: String, required: true},
     description: {type: String, required: true}

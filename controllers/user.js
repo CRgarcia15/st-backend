@@ -3,6 +3,7 @@ const router = require("express").Router()
 const { User } = require("../models")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const {validateJWT} = require ("../middleware/auth")
 
 //get all user (just for development purposes)
 router.get("/", async (req, res) => {
@@ -19,9 +20,6 @@ router.post("/", async (req, res) =>{
         username,
         password: await bcrypt.hash(password, 12)
     }).save()
-    
-    res.json(createdUser)
-    console.log("created an user")
 
     //Creates user with JWT token
     const payload = {
@@ -29,12 +27,14 @@ router.post("/", async (req, res) =>{
         username: createdUser.username
     }
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
+
+    res.json({'token': token})
 })
 
 //USER LOGIN
 router.post("/login", async (req, res) => {
     const { username, password } = req.body
-
+ 
     const user = await User.findOne({ username })
     if (!user) {
         res.status(403).json({'message': 'Invalid Credentials'})
@@ -50,14 +50,15 @@ router.post("/login", async (req, res) => {
             console.log(isValidPassword)
             return;
         }
-    
-    console.log(password)
-    console.log(user)
-    console.log(isValidPassword)
 
-    res.json({"message": "You're Logged In"})
+    const payload = {
+        id: user._id,
+        username: user.username
+    }
 
-    //JWT should start here
+    const token =  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
+
+    res.json({'token' : token})
 })
 
 //UPDATE AN USER
