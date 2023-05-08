@@ -49,7 +49,8 @@ router.delete("/:id", (req, res) => {
     Project.findByIdAndDelete(req.params.id).then(res.status(303))
     console.log("deleting selected project")
 })
-
+  
+//ASSINGMENT ROUTE
 //REQUESTING ALL ASSIGNMENTS FOR ONE PROJECT
 router.get("/assingments", async(req, res) => {
     const Assingments = await Assingments.find()
