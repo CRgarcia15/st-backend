@@ -20,3 +20,5 @@ const projectSchema = new mongoose.Schema({
 
 //EXPORTS
 module.exports = mongoose.model("Project", projectSchema);
+
+//added something to line 8 and line 56 in projects route, make sure it works

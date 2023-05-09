@@ -5,7 +5,7 @@ const { Project, Assingments } = require('../models')
 
 //GET ALL PROJECT
 router.get("/", async (req, res) => {
-    const project = await Project.find()
+    const project = await Project.find({ ownerId: req.user._id })
     res.json(project)
     console.log("showing all projects")
 })
@@ -39,7 +39,7 @@ router.put("/:id", (req, res) => {
         })
         .catch((err) => {
             res.status(400).json({
-                message: "An error occured, could not edit the project."
+                message: "An error occured, could not update the project."
             })
         })
 })
@@ -51,9 +51,35 @@ router.delete("/:id", (req, res) => {
 })
   
 //ASSINGMENT ROUTE
-//REQUESTING ALL ASSIGNMENTS FOR ONE PROJECT
+//CREATE ASSINGMENT
+router.post("/createAssingment", (req, res) => {
+    Assingments.create(req.body)
+        .then((createAssingment) => {
+            res.status(200).json(createAssingment)
+        })
+        .catch((err) => {
+            res.status(400).json({
+                message: "An error occured, could not create a new assingment."
+            })
+        })
+})
+
+//UPDATE AN ASSINGMENT
+router.put("/assingmentUpdate/:id", (req, res) => {
+    Assingments.findByIdAndUpdate(req.params.id, req.body)
+        .then((updatedAssingment) => {
+            res.status(200).json(updatedAssingment)
+        })
+        .catch((err) => {
+            res.status(400).json({
+                message: "An error occured, could not update assingment"
+            })
+        })
+})
+
+//REQUESTING ALL ASSIGNMENTS FROM ONE PROJECT
 router.get("/assingments", async(req, res) => {
-    const Assingments = await Assingments.find()
+    const Assingments = await Assingments.find({ projectId: req.project._id })
     if(!Assingments){
         res.status(404)
         res.json({"message": "Assingments not found"})
@@ -73,6 +99,12 @@ router.get("/assingments/:id", (req, res) => {
         }
         res.json(foundAssingment)
     })
+})
+
+//DELETE ASSINGMENT 
+router.delete("/assingments/:id", (req, res) => {
+    Assingments.findByIdAndDelete(req.params.id).then(res.status(303))
+    console.log("deleting selected assingment")
 })
 
 //EXPORTS
