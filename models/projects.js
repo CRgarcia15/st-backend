@@ -9,16 +9,14 @@ const projectSchema = new mongoose.Schema({
    //this is realating the project to it owner (user who created it)
    ownerId: {
       type: Schema.Types.ObjectId,
-      ref: "User"
+      ref: 'User'
    },
     //this is an array of assingments for the project
    assingments: [{
       type: Schema.Types.ObjectId,
-      ref: "Assingments"
+      ref: 'Assingments'
    }]
 })
 
 //EXPORTS
 module.exports = mongoose.model("Project", projectSchema);
-
-//added something to line 8 and line 56 in projects route, make sure it works

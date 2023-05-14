@@ -15,6 +15,12 @@ router.get("/", async (req, res) => {
 //CREATE NEW USER WITH HASHED PASSWORD
 router.post("/", async (req, res) =>{
     const { fullName, username, password } = req.body
+    const userCheck = await User.findOne({ username })
+    if (userCheck) {
+        res.status(422)
+        res.json({ 'message': 'User exist.'})
+        return;
+    }
     const createdUser = await new User({
         fullName,
         username,
@@ -27,7 +33,6 @@ router.post("/", async (req, res) =>{
         username: createdUser.username
     }
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
-
     res.json({'token': token})
 })
 

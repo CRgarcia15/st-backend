@@ -29,7 +29,6 @@ router.post("/", async (req, res) => {
         .then((createProject) => {
             res.status(200).json(createProject)
         })
-
         .catch((err) => {
             res.status(400).json({
                 message: "An error occured, could not create a new project."
