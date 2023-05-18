@@ -13,57 +13,51 @@ router.get("/", async (req, res) => {
 })
 
 //CREATE NEW USER WITH HASHED PASSWORD
-router.post("/", async (req, res) =>{
-    const { fullName, username, password } = req.body
+router.post("/signup", async (req, res) =>{
+    const { username, password } = req.body
     const userCheck = await User.findOne({ username })
     if (userCheck) {
         res.status(422)
-        res.json({ 'message': 'User exist.'})
+        res.json({ 'message': 'User exists'})
         return;
     }
-    const createdUser = await new User({
-        fullName,
+    const user = await new User({
         username,
         password: await bcrypt.hash(password, 12)
     }).save()
 
-    //Creates user with JWT token
     const payload = {
-        id: createdUser._id,
-        username: createdUser.username
+        _id: user._id,
+        username: user.username
     }
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
-    res.json({'token': token})
+    res.json(token)
 })
 
 //USER LOGIN
 router.post("/login", async (req, res) => {
     const { username, password } = req.body
  
-    const user = await User.findOne({ username })
+    const user = await User.findOne({ username }).populate('projects')
     if (!user) {
-        res.status(403).json({'message': 'Invalid Credentials'})
-        return
+        res.status(422);
+        res.json({'message': 'Invalid Credentials'});
+        return;
     }
 
-    const isValidPassword =  await bcrypt.compare(password, user.password);
-        if(!isValidPassword){
+    const validPassword =  await bcrypt.compare(password, user.password);
+        if(!validPassword){
             res.status(422)
             res.json({'message': 'Invalid Credentials'})
-            console.log(password)
-            console.log(user)
-            console.log(isValidPassword)
             return;
         }
 
     const payload = {
-        id: user._id,
+        _id: user._id,
         username: user.username
     }
-
     const token =  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
-
-    res.json({'token' : token})
+    res.json(token)
 })
 
 //UPDATE AN USER

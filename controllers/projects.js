@@ -1,18 +1,23 @@
 //DEPENDENCIES
 const router = require("express").Router()
-const { Project, Assingments } = require('../models')
+const Project = require('../models/projects')
+const Assingments = require('../models/assignments')
 
 
 //GET ALL PROJECT ASSOCIATED TO OWNER 
 router.get("/", async (req, res) => {
-    const project = await Project.find({ ownerId: req.user._id })
+    const project = await Project.find({ ownerId: req.user._id }).populate('ownerId')
+    if (!project) {
+        res.status(404)
+        res.json({ 'message': 'NO projects were found' })
+    }
+    res.status(200)
     res.json(project)
-    console.log("showing all projects")
 })
 
 //GET ONE PROJECT
 router.get("/:id", async (req, res) => {
-   const project = await Project.find({ _id: req.params.id }).populate('assingment')
+   const project = await Project.find({ _id: req.params.id }).populate('assingment');
 
    if (!project) {
     res.status(404)
@@ -25,15 +30,25 @@ router.get("/:id", async (req, res) => {
 
 //CREATE NEW PROJECT
 router.post("/", async (req, res) => {
-    Project.create(req.body)
-        .then((createProject) => {
-            res.status(200).json(createProject)
-        })
+    const { projectName } = req.body;
+    const projectCheck = await Project.findOne({ projectName })
+    if (projectCheck) {
+        res.status(422)
+        res.json({ 'message': 'This project already exists' })
+        return;
+    }
+    const project = await new Project({
+        projectName
+        //ownerId: req.user._id
+    }).save()
         .catch((err) => {
             res.status(400).json({
                 message: "An error occured, could not create a new project."
             })
+            console.log(err)
         })
+    res.status(200)
+    res.json(project)    
 })
 
 //UPDATE ONE PROJECT
