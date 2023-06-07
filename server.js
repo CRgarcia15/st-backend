@@ -6,6 +6,7 @@ require("dotenv").config()
 const userRoutes =  require("./controllers/user")
 const projectRoutes = require("./controllers/projects")
 const assingmentRoutes = require("./controllers/Assingment")
+const authMiddleware = require('./middleware/auth')
 const cors = require('cors')
 
 //MIDDLEWARE
@@ -19,9 +20,9 @@ app.get("/", (req, res) => {
 })
 
 //ROUTES
-app.use("/projects", projectRoutes)
 app.use("/user", userRoutes)
-app.use("/assingment", assingmentRoutes )
+app.use("/project", authMiddleware.validateJWT, projectRoutes)
+app.use("/assingment", authMiddleware.validateJWT, assingmentRoutes )
 
 //ERROR HANDALING / 404
 app.get("*", (req, res) => {

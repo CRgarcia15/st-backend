@@ -16,11 +16,11 @@ router.get("/", async (req, res) => {
 router.post("/signup", async (req, res) =>{
     const { username, password } = req.body
     const userCheck = await User.findOne({ username })
-    if (userCheck) {
-        res.status(422)
-        res.json({ 'message': 'User exists'})
-        return;
-    }
+    // if (userCheck) {
+    //     res.status(422)
+    //     res.json({ 'message': 'User exists'})
+    //     return;
+    // }
     const user = await new User({
         username,
         password: await bcrypt.hash(password, 12)
@@ -38,7 +38,7 @@ router.post("/signup", async (req, res) =>{
 router.post("/login", async (req, res) => {
     const { username, password } = req.body
  
-    const user = await User.findOne({ username }).populate('projects')
+    const user = await User.findOne({ username })
     if (!user) {
         res.status(422);
         res.json({'message': 'Invalid Credentials'});
@@ -58,6 +58,7 @@ router.post("/login", async (req, res) => {
     }
     const token =  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
     res.json(token)
+    console.log(token)
 })
 
 //UPDATE AN USER

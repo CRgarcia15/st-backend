@@ -6,7 +6,7 @@ const Assingments = require('../models/assignments')
 
 //GET ALL PROJECT ASSOCIATED TO OWNER 
 router.get("/", async (req, res) => {
-    const project = await Project.find({ ownerId: req.user._id }).populate('ownerId')
+    const project = await Project.find({ ownerId: req.user._id })//.populate('ownerId')
     if (!project) {
         res.status(404)
         res.json({ 'message': 'NO projects were found' })
@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
 })
 
 //CREATE NEW PROJECT
-router.post("/", async (req, res) => {
+router.post("/create", async (req, res) => {
     const { projectName } = req.body;
     const projectCheck = await Project.findOne({ projectName })
     if (projectCheck) {

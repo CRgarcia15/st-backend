@@ -14,4 +14,5 @@ const assingmentSchema = new Schema({
 })
 
 //EXPORT
-module.exports = mongoose.model("Assingments", assingmentSchema)
+const Assingment = mongoose.model("Assingments", assingmentSchema)
+module.exports = Assingment

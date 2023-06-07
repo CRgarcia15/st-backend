@@ -1,5 +1,6 @@
 //DEPENDENCIES
 const mongoose = require("mongoose")
+const projects = require("./projects")
 const Schema = mongoose.Schema
 
 //SCHEMA

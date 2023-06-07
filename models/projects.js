@@ -1,5 +1,6 @@
 //DEPENDENCIES
 const mongoose = require("mongoose")
+const user = require('./user')
 const Schema = mongoose.Schema
 
 //SCHEMAS 
@@ -8,7 +9,7 @@ const projectSchema = new mongoose.Schema({
    dueDate: {type: String, default: "No due date", required: false},
    ownerId: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'users'
    },
    assingments: [{
       type: Schema.Types.ObjectId,
@@ -17,4 +18,5 @@ const projectSchema = new mongoose.Schema({
 })
 
 //EXPORTS
-module.exports = mongoose.model("Project", projectSchema);
+const Project = mongoose.model("Project", projectSchema);
+module.exports = Project
