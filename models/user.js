@@ -7,7 +7,7 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  project: [{type: Schema.Types.ObjectId, ref: 'project'}]
+  project: [{type: Schema.Types.ObjectId, ref: 'projects'}]
  })
 
 //EXPORT

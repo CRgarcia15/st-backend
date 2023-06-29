@@ -1,12 +1,13 @@
 //DEPENDENCIES
 const mongoose = require("mongoose")
+const projects = require("./projects")
 const Schema = mongoose.Schema
 
 //SCHEMA
 const assingmentSchema = new Schema({
     projectId: {
         type: Schema.Types.ObjectId,
-        ref: "Project",
+        ref: "projects",
         required : true
     },
     title: {type: String, required: true},

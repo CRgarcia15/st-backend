@@ -1,6 +1,7 @@
 //DEPENDENCIES
 const mongoose = require("mongoose")
 const user = require('./user')
+const assingments = require('./assignments')
 const Schema = mongoose.Schema
 
 //SCHEMAS 
@@ -9,7 +10,7 @@ const projectSchema = new mongoose.Schema({
    dueDate: {type: String, default: "No due date", required: false},
    ownerId: {
       type: Schema.Types.ObjectId,
-      ref: 'users'
+      ref: 'user'
    },
    assingments: [{
       type: Schema.Types.ObjectId,
