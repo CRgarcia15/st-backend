@@ -1,19 +1,10 @@
 //DEPENDENCIES
 const router = require("express").Router()
-const Project = require('../models/projects')
+const jwt = require('jsonwebtoken')
+const Project = require('../models/project')
 const Assingments = require('../models/assignments')
-
-
-//GET ALL PROJECT ASSOCIATED TO OWNER 
-router.get("/", async (req, res) => {
-    const project = await Project.find({ ownerId: req.user._id })//.populate('ownerId')
-    if (!project) {
-        res.status(404)
-        res.json({ 'message': 'NO projects were found' })
-    }
-    res.status(200)
-    res.json(project)
-})
+const {validateJWT} = require ("../middleware/auth")
+const { User } = require("../models")
 
 //GET ONE PROJECT
 router.get("/:id", async (req, res) => {
@@ -29,9 +20,10 @@ router.get("/:id", async (req, res) => {
 })
 
 //CREATE NEW PROJECT
-router.post("/create", async (req, res) => {
+router.post("/create", validateJWT, async (req, res) => {
     const { projectName } = req.body;
     const projectCheck = await Project.findOne({ projectName })
+    
     if (projectCheck) {
         res.status(422)
         res.json({ 'message': 'This project already exists' })
@@ -68,6 +60,13 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
     Project.findByIdAndDelete(req.params.id).then(res.status(303))
     console.log("deleting selected project")
+})
+
+//development purposes
+router.get("/", async (req,res) => {
+    const project = await Project.findOne({_id:"64babe5db02da344597c6269" })
+    .populate('user')
+    res.status(200).json(project)
 })
 
 //EXPORTS

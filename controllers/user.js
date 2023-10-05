@@ -1,6 +1,6 @@
 //DEPENDENCIES
 const router = require("express").Router()
-const { User } = require("../models")
+const { User, Project } = require("../models")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {validateJWT} = require ("../middleware/auth")
@@ -15,12 +15,6 @@ router.get("/", async (req, res) => {
 //CREATE NEW USER WITH HASHED PASSWORD
 router.post("/signup", async (req, res) =>{
     const { username, password } = req.body
-    const userCheck = await User.findOne({ username })
-    // if (userCheck) {
-    //     res.status(422)
-    //     res.json({ 'message': 'User exists'})
-    //     return;
-    // }
     const user = await new User({
         username,
         password: await bcrypt.hash(password, 12)
@@ -57,8 +51,25 @@ router.post("/login", async (req, res) => {
         username: user.username
     }
     const token =  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
-    res.json(token)
+    res.status(200).json(token) 
     console.log(token)
+    console.log(user)
+})
+
+//GET ALL PROJECT ASSOCIATED TO USER 
+router.get("/home", validateJWT, async (req, res) => {
+    const foundProject = await Project.find().populate('user')
+    
+    if (!foundProject) {
+            res.status(404)
+            res.json({ 'message': 'No projects were found' })
+        }
+    
+    res.status(200).json({foundProject}) 
+    /*
+    foundProject returns an array of projects, sort through the array
+    and query only the ones with user's coresponding _id
+    */
 })
 
 //UPDATE AN USER
@@ -72,7 +83,7 @@ router.put("/:id", (req, res) => {
                 message: "An error occured, could not update your user profile."
             })
         })
-    console.log("User is being updated")
+    console.log("User is updated")
 })
 
 //DELETE USER

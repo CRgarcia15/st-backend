@@ -17,7 +17,9 @@
     "jsonwebtoken": "^9.0.0",
     "method-override": "^3.0.0",
     "mongodb": "^5.6.0",
-    "mongoose": "^6.8.3"
+    "mongoose": "^6.8.3",
+    "nodemo": "^1.0.0",
+    "nodemon": "^3.0.1"
   },
   "nodemonConfig": {
     "ext": "js,html,json,jsx,mjs"

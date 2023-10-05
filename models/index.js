@@ -13,6 +13,6 @@ mongoose.connect(
     .then(() => console.log('DB Connected'))
     .catch(err => console.error(err))
 
-module.exports.Project = require("./projects")
+module.exports.Project = require("./project")
 module.exports.User = require("./user")
 module.exports.Assingments = require("./assignments")

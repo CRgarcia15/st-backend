@@ -1,22 +1,27 @@
 //DEPENDENCIES
 const mongoose = require("mongoose")
-const user = require('./user')
-const assingments = require('./assignments')
 const Schema = mongoose.Schema
 
 //SCHEMAS 
 const projectSchema = new mongoose.Schema({
    projectName: {type: String, required: true},
-   dueDate: {type: String, default: "No due date", required: false},
-   ownerId: {
+   dueDate: {type: Date},
+   user: {
       type: Schema.Types.ObjectId,
       ref: 'user'
-   },
-   assingments: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Assingments'
-   }]
+   }
+},{toJSON: {virtuals: true}})
+
+// Virtual
+projectSchema.virtual('assingments', {
+   ref: 'Assaignments',
+   localField: 'projectName',
+   foreignField: 'projects'
 })
+
+projectSchema.methods.createdBy = function () {
+   return `Created by ${this.user.username}`
+}
 
 //EXPORTS
 const Project = mongoose.model("Project", projectSchema);

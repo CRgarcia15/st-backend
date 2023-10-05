@@ -1,13 +1,19 @@
 //DEPENDENCIES
 const mongoose = require("mongoose")
-const projects = require("./projects")
+const projects = require("./project")
 const Schema = mongoose.Schema
 
 //SCHEMA
 const userSchema = new Schema({
   username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  project: [{type: Schema.Types.ObjectId, ref: 'projects'}]
+  password: {type: String, required: true}
+ }, {toJSON: {virtuals: true}})
+
+//Virtual
+ userSchema.virtual('project', {
+  ref: "Project",
+  localField: "_id",
+  foreignField: 'user'
  })
 
 //EXPORT
