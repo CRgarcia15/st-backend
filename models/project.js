@@ -5,24 +5,24 @@ const Schema = mongoose.Schema
 //SCHEMAS 
 const projectSchema = new mongoose.Schema({
    projectName: {type: String, required: true},
-   dueDate: {type: Date},
+   dueDate: {type: Date, default: Date.now},
    user: {
       type: Schema.Types.ObjectId,
-      ref: 'user'
+      ref: 'User'
    }
-},{toJSON: {virtuals: true}})
+},{toJSON: {virtuals: true}}, {toObject: {virtuals: true}})
 
 // Virtual
 projectSchema.virtual('assingments', {
-   ref: 'Assaignments',
-   localField: 'projectName',
-   foreignField: 'projects'
-})
+   ref: 'Project',
+   localField: '_id',
+   foreignField: 'project'
+  }, { toJSON: { virtuals: true} })
 
 projectSchema.methods.createdBy = function () {
    return `Created by ${this.user.username}`
 }
 
 //EXPORTS
-const Project = mongoose.model("Project", projectSchema);
+const Project = mongoose.model("Project", projectSchema, "Project");
 module.exports = Project

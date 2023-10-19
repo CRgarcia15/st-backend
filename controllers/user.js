@@ -58,14 +58,14 @@ router.post("/login", async (req, res) => {
 
 //GET ALL PROJECT ASSOCIATED TO USER 
 router.get("/home", validateJWT, async (req, res) => {
-    const foundProject = await Project.find().populate('user')
+    const foundUser = await User.find().populate('project')
     
-    if (!foundProject) {
+    if (!foundUser) {
             res.status(404)
             res.json({ 'message': 'No projects were found' })
         }
     
-    res.status(200).json({foundProject}) 
+    res.status(200).json({foundUser}) 
     /*
     foundProject returns an array of projects, sort through the array
     and query only the ones with user's coresponding _id
