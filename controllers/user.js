@@ -1,6 +1,6 @@
 //DEPENDENCIES
 const router = require("express").Router()
-const { User, Project } = require("../models")
+const { User } = require("../models")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {validateJWT} = require ("../middleware/auth")
@@ -26,6 +26,8 @@ router.post("/signup", async (req, res) =>{
     }
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
     res.json(token)
+    console.log(token)
+    console.log(user)
 })
 
 //USER LOGIN
@@ -53,12 +55,12 @@ router.post("/login", async (req, res) => {
     const token =  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
     res.status(200).json(token) 
     console.log(token)
-    console.log(user)
+    console.log(user) 
 })
 
 //GET ALL PROJECT ASSOCIATED TO USER 
 router.get("/home", validateJWT, async (req, res) => {
-    const foundUser = await User.find().populate('project')
+    const foundUser = await User.find().populate('Project')
     
     if (!foundUser) {
             res.status(404)

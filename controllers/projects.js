@@ -1,10 +1,8 @@
 //DEPENDENCIES
 const router = require("express").Router()
-const jwt = require('jsonwebtoken')
 const Project = require('../models/project')
-const Assingments = require('../models/assignments')
+const jwt = require('jsonwebtoken')
 const {validateJWT} = require ("../middleware/auth")
-const { User } = require("../models")
 
 //GET ONE PROJECT
 router.get("/:id", async (req, res) => {
@@ -19,28 +17,46 @@ router.get("/:id", async (req, res) => {
    res.json(project)
 })
 
+//Get all projects (dev purposes)
+router.get("/all", async(req, res) => {
+    const project = await Project.find()
+    res.json(project)
+    console.log(project)
+})
+
 //CREATE NEW PROJECT
 router.post("/create", validateJWT, async (req, res) => {
-    const { projectName } = req.body;
+
+    const userToken = req.headers.authorization.split(' ')[1]
+    const tokenDecode  = jwt.decode(userToken)
+    const userinfo = tokenDecode._id
+    const owner = userinfo
+
+    const { projectName, dueDate } = req.body;
+     
     const projectCheck = await Project.findOne({ projectName })
     
-    if (projectCheck) {
+    if (projectCheck) {;
         res.status(422)
         res.json({ 'message': 'This project already exists' })
         return;
     }
-    const project = await new Project({
-        projectName
-        //ownerId: req.user._id
-    }).save()
-        .catch((err) => {
-            res.status(400).json({
-                message: "An error occured, could not create a new project."
-            })
+
+    const project = await new Project(
+        { 
+         projectName, 
+         dueDate,
+         owner
+        }).save()
+            .catch((err) => {
+                res.status(400).json({
+                    message: "An error occured, could not create a new project."
+               })
             console.log(err)
-        })
+        })  
+        
     res.status(200)
-    res.json(project)    
+    res.json(project) 
 })
 
 //UPDATE ONE PROJECT
