@@ -5,7 +5,6 @@ const mongoose = require("mongoose")
 require("dotenv").config()
 const userRoutes =  require("./controllers/user")
 const projectRoutes = require("./controllers/projects")
-const assingmentRoutes = require("./controllers/Assingment")
 const authMiddleware = require('./middleware/auth')
 const cors = require('cors')
 
@@ -22,7 +21,6 @@ app.get("/", (req, res) => {
 //ROUTES
 app.use("/user", userRoutes)
 app.use("/project", authMiddleware.validateJWT, projectRoutes)
-app.use("/assingment", authMiddleware.validateJWT, assingmentRoutes )
 
 //ERROR HANDALING / 404
 app.get("*", (req, res) => {

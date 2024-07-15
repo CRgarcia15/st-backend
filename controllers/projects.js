@@ -6,7 +6,7 @@ const {validateJWT} = require ("../middleware/auth")
 
 //GET ONE PROJECT
 router.get("/:id", async (req, res) => {
-   const project = await Project.find({ _id: req.params.id }).populate('assingment');
+   const project = await Project.find({ _id: req.params.id })
 
    if (!project) {
     res.status(404)
