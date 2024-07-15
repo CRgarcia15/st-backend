@@ -78,12 +78,5 @@ router.delete("/:id", (req, res) => {
     console.log("deleting selected project")
 })
 
-//development purposes
-router.get("/", async (req,res) => {
-    const project = await Project.findOne({_id:"64babe5db02da344597c6269" })
-    .populate('user')
-    res.status(200).json(project)
-})
-
 //EXPORTS
 module.exports = router;

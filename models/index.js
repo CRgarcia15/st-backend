@@ -15,4 +15,3 @@ mongoose.connect(
 
 module.exports.Project = require("./project").default
 module.exports.User = require("./user")
-module.exports.Assingments = require("./assignments")
