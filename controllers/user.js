@@ -1,6 +1,6 @@
 //DEPENDENCIES
 const router = require("express").Router()
-const { User } = require("../models")
+const { User, Project } = require("../models")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {validateJWT} = require ("../middleware/auth")
@@ -57,8 +57,12 @@ router.post("/login", async (req, res) => {
 })
 
 //GET ALL PROJECT ASSOCIATED TO USER 
-router.get("/home", validateJWT, async (req, res) => {
-    const foundUser = await User.find().populate('Project')
+router.get("/:id/home", validateJWT, async (req, res) => {  
+
+    Project.find(req.params.id, req.headers)
+
+
+   /* const foundUser = await User.find().populate('Project', 'projectName')
     
     if (!foundUser) {
             res.status(404)
