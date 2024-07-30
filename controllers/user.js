@@ -59,7 +59,21 @@ router.post("/login", async (req, res) => {
 //GET ALL PROJECT ASSOCIATED TO USER 
 router.get("/:id/home", validateJWT, async (req, res) => {  
 
-    Project.find(req.params.id, req.headers)
+   const projectGet = await Project.find().then((foundProjects) => {
+        const userToken = req.headers.authorization.split(' ')[1]
+        const tokenDecode  = jwt.decode(userToken)
+        const userinfo = tokenDecode._id
+        const owner = userinfo
+
+        const projectArr = [foundProjects]
+
+        for (i = 0; i = projectArr.length; i++){
+                if (projectArr.owner !== owner) {
+                    return foundProjects
+                }
+            res.json([foundProjects]);
+        }
+    })
 
 
    /* const foundUser = await User.find().populate('Project', 'projectName')
@@ -69,11 +83,7 @@ router.get("/:id/home", validateJWT, async (req, res) => {
             res.json({ 'message': 'No projects were found' })
         }
     
-    res.status(200).json({foundUser}) 
-    /*
-    foundProject returns an array of projects, sort through the array
-    and query only the ones with user's coresponding _id
-    */
+    res.status(200).json({foundUser}) */
 })
 
 //UPDATE AN USER
