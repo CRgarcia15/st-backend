@@ -21,7 +21,6 @@ router.get("/:id", async (req, res) => {
 router.get("/all", async(req, res) => {
     const project = await Project.find()
     res.json(project)
-    console.log(project)
 })
 
 //CREATE NEW PROJECT
