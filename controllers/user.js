@@ -1,6 +1,7 @@
 //DEPENDENCIES
 const router = require("express").Router()
-const { User, Project } = require("../models")
+const  { User }  = require("../models")
+const  Project  = require("../models/project")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {validateJWT} = require ("../middleware/auth")
@@ -54,34 +55,6 @@ router.post("/login", async (req, res) => {
     }
     const token =  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
     res.status(200).json(token) 
-})
-
-//GET ALL PROJECT ASSOCIATED TO USER 
-router.get("/:id/home", validateJWT, async (req, res) => {  
-
-   const projectGet = await Project.find()
-
-    const userToken = req.headers.authorization.split(' ')[1]
-    const tokenDecode  = jwt.decode(userToken)
-    const userinfo = tokenDecode._id
-    const owner = userinfo
-
-    for (i = 0; i = projectGet.length; i++){
-            if (projectArr.owner !== owner) {
-                return foundProjects
-            }
-        res.json([foundProjects]);
-    }
-
-
-   /* const foundUser = await User.find().populate('Project', 'projectName')
-    
-    if (!foundUser) {
-            res.status(404)
-            res.json({ 'message': 'No projects were found' })
-        }
-
-    res.status(200).json({foundUser}) */
 })
 
 //UPDATE AN USER
