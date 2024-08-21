@@ -18,31 +18,15 @@ router.get("/:id", async (req, res) => {
 })
 
 //GET ALL PROJECT ASSOCIATED TO USER 
-router.get("/:id/home", validateJWT, async (req, res) => {  
+router.get("/", validateJWT, async (req, res) => {  
+    const userToken = req.headers.authorization.split(' ')[1]
+    const tokenDecode = jwt.decode(userToken)
+    const userInfo = tokenDecode._id
+    const owner = userInfo
 
-    const projectGet = await Project.find()
- 
-     const userToken = req.headers.authorization.split(' ')[1]
-     const tokenDecode  = jwt.decode(userToken)
-     const userinfo = tokenDecode._id
-     const owner = userinfo
- 
-     for (i = 0; i = projectGet.length; i++){
-             if (projectGet.owner !== owner) {
-                 return projectGet
-             }
-         console.log(projectGet);
-     }
- 
- 
-    /* const foundUser = await User.find().populate('Project', 'projectName')
-     
-     if (!foundUser) {
-             res.status(404)
-             res.json({ 'message': 'No projects were found' })
-         }
- 
-     res.status(200).json({foundUser}) */
+    const projectGet = await Project.find({owner: `${owner}`})
+
+    res.json(projectGet)
  })
  
 //CREATE NEW PROJECT
