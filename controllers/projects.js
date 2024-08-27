@@ -10,7 +10,7 @@ router.get("/:id", async (req, res) => {
 
    if (!project) {
     res.status(404)
-    return res.json({ 'message': 'Project not found'})
+    return res.json({ 'Message': 'Project not found'})
    }
 
    res.status(200)
@@ -26,7 +26,7 @@ router.get("/", validateJWT, async (req, res) => {
 
     const projectGet = await Project.find({owner: `${owner}`})
 
-    res.json(projectGet)
+    return res.json(projectGet)
  })
  
 //CREATE NEW PROJECT
