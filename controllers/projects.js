@@ -65,10 +65,11 @@ router.post("/create", validateJWT, async (req, res) => {
 })
 
 //UPDATE ONE PROJECT
-router.put("/:id", (req, res) => {
+router.put("/:id", validateJWT, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body)
         .then((updatedProject) => {
-            res.status(200).json(updatedProject)
+            res.status(200).json(updatedProject),
+            {returnNewDocument: true}
         })
         .catch((err) => {
             res.status(400).json({
@@ -78,7 +79,7 @@ router.put("/:id", (req, res) => {
 })
 
 //DELETE A PROJECT
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateJWT, (req, res) => {
     Project.findByIdAndDelete(req.params.id).then(res.status(303))
     console.log("deleting selected project")
 })
