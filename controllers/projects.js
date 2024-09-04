@@ -66,7 +66,7 @@ router.post("/create", validateJWT, async (req, res) => {
 
 //UPDATE ONE PROJECT
 router.put("/:id", validateJWT, (req, res) => {
-    Project.findByIdAndUpdate(req.params.id, req.body)
+    Project.findByIdAndUpdate(req.params.id, req.body, ({new: true}))
         .then((updatedProject) => {
             res.status(200).json(updatedProject),
             {returnNewDocument: true}
