@@ -66,7 +66,7 @@ router.post("/create", validateJWT, async (req, res) => {
 
 //UPDATE ONE PROJECT
 router.put("/:id", validateJWT, (req, res) => {
-    Project.findByIdAndUpdate(req.params.id, req.body, ({new: true}))
+    Project.findByIdAndUpdate(req.params.id, req.body, ({ new: true }))
         .then((updatedProject) => {
             res.status(200).json(updatedProject),
             {returnNewDocument: true}
@@ -80,8 +80,7 @@ router.put("/:id", validateJWT, (req, res) => {
 
 //DELETE A PROJECT
 router.delete("/:id", validateJWT, (req, res) => {
-    Project.findByIdAndDelete(req.params.id).then(res.status(303))
-    console.log("deleting selected project")
+    Project.findByIdAndDelete(req.params.id).then(res.status(303).json({'Message': 'Project is deleted'}))
 })
 
 //EXPORTS
