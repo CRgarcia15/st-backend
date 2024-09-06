@@ -68,13 +68,11 @@ router.put("/:id", validateJWT, (req, res) => {
                 message: "An error occured, could not update your user profile."
             })
         })
-    console.log("User is updated")
 })
 
 //DELETE USER
 router.delete("/:id", validateJWT, (req, res) => {
     User.findByIdAndDelete(req.params.id).then(res.status(303).json({'Message':'User is deleted'}))
-    console.log("user is being deleted")
 })
 
 //EXPORTS
