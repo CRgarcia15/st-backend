@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
 })
 
 //UPDATE AN USER
-router.put("/:id", (req, res) => {
+router.put("/:id", validateJWT, (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body, ({ new: true }))
         .then((updatedUser) => {
             res.status(200).json(updatedUser)
@@ -72,7 +72,7 @@ router.put("/:id", (req, res) => {
 })
 
 //DELETE USER
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateJWT, (req, res) => {
     User.findByIdAndDelete(req.params.id).then(res.status(303).json({'Message':'User is deleted'}))
     console.log("user is being deleted")
 })
