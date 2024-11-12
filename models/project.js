@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 //SCHEMAS 
 const projectSchema = new mongoose.Schema({
-   projectName: {type: String, required: true},
+   projectName: {type: String, required: true, unique: true},
    dueDate: {type: Date, default: Date.now, required: false},
    owner: {
       type: Schema.Types.ObjectId,
