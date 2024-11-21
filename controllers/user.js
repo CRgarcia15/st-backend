@@ -29,6 +29,7 @@ router.post("/signup", async (req, res) =>{
     res.json(token)
     console.log(token)
     console.log(user)
+    console.log(res.status, `user ${username} was created`)
 })
 
 //USER LOGIN
@@ -55,6 +56,7 @@ router.post("/login", async (req, res) => {
     }
     const token =  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
     res.status(200).json(token) 
+    console.log(res.status, `user ${username} has logged`)
 })
 
 //UPDATE AN USER
