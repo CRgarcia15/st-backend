@@ -7,11 +7,13 @@ const userRoutes =  require("./controllers/user")
 const projectRoutes = require("./controllers/projects")
 const authMiddleware = require('./middleware/auth')
 const cors = require('cors')
+const defineCurrentUser = require('./middleware/defineCurrentUser')
 
 //MIDDLEWARE
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({origin:'*'}))
+app.use(defineCurrentUser)
 
 //ROUTES
 app.get("/", (req, res) => {
