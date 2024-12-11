@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
     }
     const token =  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d'})
     res.status(200).json(token) 
-    console.log(res.status, `user ${username} has logged`)
+    console.log(res.status, `user ${username} (${token}) has logged`)
 })
 
 //UPDATE AN USER
