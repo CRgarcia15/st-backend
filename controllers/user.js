@@ -59,6 +59,11 @@ router.post("/login", async (req, res) => {
     console.log(res.status, `user ${username} (${token}) has logged`)
 })
 
+//USER PROFILE
+router.get("/profile", async (req, res) => {
+    res.json(req.currentUser)
+})
+
 //UPDATE AN USER
 router.put("/:id", validateJWT, (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body, ({ new: true }))
