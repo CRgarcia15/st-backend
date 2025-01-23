@@ -1,7 +1,6 @@
 //DEPENDENCIES
 const router = require("express").Router()
 const  { User }  = require("../models")
-const  Project  = require("../models/project")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {validateJWT} = require ("../middleware/auth")
