@@ -6,15 +6,18 @@ const {validateJWT} = require ("../middleware/auth")
 
 //GET ONE PROJECT
 router.get("/:id", async (req, res) => {
-   const project = await Project.find({ _id: req.params.id })
+   try{
+        const project = await Project.findById(req.params.id);
 
-   if (!project) {
-    res.status(404)
-    return res.json({ 'Message': 'Project not found'})
-   }
+        if(!project){
+            return res.status(404).json({ message: "Project not found" });
+        }
 
-   res.status(200)
-   res.json(project)
+        res.status(200).json(project)
+    } catch (error) {
+        console.error("Error fetching project:", error)
+        res.status(500).json({ message: "Server error"})
+    }
 })
 
 //GET ALL PROJECT ASSOCIATED TO USER 
