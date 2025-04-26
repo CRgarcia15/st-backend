@@ -40,7 +40,7 @@ router.post("/create", validateJWT, async (req, res) => {
     const userinfo = tokenDecode._id
     const owner = userinfo
 
-    const { projectName, dueDate } = req.body;
+    const { projectName, dueDate, description } = req.body;
      
     const projectCheck = await Project.findOne({ projectName })
     
@@ -54,6 +54,7 @@ router.post("/create", validateJWT, async (req, res) => {
         { 
          projectName, 
          dueDate,
+         description,
          owner
         }).save()
             .catch((err) => {
